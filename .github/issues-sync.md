@@ -1,5 +1,5 @@
 # GitHub Issues Sync Export
-Updated: 2025-12-20 18:31 UTC
+Updated: 2025-12-20 18:33 UTC
 
 ## Open Issues
 - #6: 🔄 Copilot Sync Channel
@@ -10,9 +10,6 @@ Updated: 2025-12-20 18:31 UTC
 - #1: Port 9091 conflict: MCP server vs master_qty_sync
 
 ## Sync Channel (Last 5 Comments)
-**Stan2891** (2025-12-20T15:12:04Z):
-**[2025-12-20 17:12:03]** VS Code session started. Memory API auth completed. Ready for next task.
-
 **Stan2891** (2025-12-20T18:23:19Z):
 **[2025-12-20 20:23:18]** TEST: Verifying Copilot sync from VS Code
 
@@ -24,4 +21,41 @@ Updated: 2025-12-20 18:31 UTC
 
 **Stan2891** (2025-12-20T18:28:36Z):
 **[2025-12-20 20:28:35]** SYNC CONFIRMED: Both VS Code and GitHub.com Copilot now using Stan2891/bmparts-ai
+
+**Stan2891** (2025-12-20T18:32:40Z):
+# Copilot Sync Protocol
+
+## Capabilities by Platform
+
+| Action | VS Code Copilot | GitHub.com Copilot | Mobile App |
+|--------|-----------------|-------------------|------------|
+| Read issues | ✅ | ✅ | ✅ |
+| Read comments | ✅ | ✅ | ✅ |
+| Write comments | ✅ (via script) | ❌ | ✅ |
+| Create issues | ✅ (via gh cli) | ✅ | ✅ |
+| Close issues | ✅ (via gh cli) | ✅ | ✅ |
+
+## How to Sync
+
+**VS Code Copilot (Vandamchik):**
+```bash
+./scripts/copilot-sync.sh "Your message here"
+```
+
+**GitHub.com Copilot:**
+- Read: `gh issue view 6 --comments`
+- Create issue: Use built-in tool
+- Write comment: Ask VS Code Copilot to post
+
+**Mobile:**
+- Open GitHub app → bmparts-ai → Issues → #6
+- Comment directly
+
+## Auto-Sync
+- GitHub Action runs every 6 hours
+- Updates `.github/issues-sync.md`
+- Triggers on new comments to Issue #6
+
+---
+*Protocol documented by Vandamchik*
 
