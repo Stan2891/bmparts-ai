@@ -18,6 +18,9 @@ on:
 jobs:
   sync-to-memory:
     runs-on: ubuntu-latest
+    permissions:
+      issues: read
+      contents: write
     # Only run for sync channel issue or scheduled
     if: |
       github.event_name == 'schedule' || 
