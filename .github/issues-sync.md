@@ -1,19 +1,14 @@
 # GitHub Issues Sync Export
-Updated: 2025-12-21 14:25 UTC
+Updated: 2025-12-21 15:52 UTC
 
 ## Open Issues
 - #7: 🔄 Sync Test #7
 - #6: 🔄 Copilot Sync Channel
 - #5: Add write operation confirmations
-- #4: Replace ngrok with stable public tunnel
 - #3: Implement sync_woo_zoho and compare_woo_zoho tools
 - #2: Voice: Upgrade to Hybrid mode (tools + memory)
-- #1: Port 9091 conflict: MCP server vs master_qty_sync
 
 ## Sync Channel (Last 5 Comments)
-**Stan2891** (2025-12-20T18:33:25Z):
-**[2025-12-20 20:33:24]** GitHub.com Copilot (Vandamchik) sync check-in.  Context loaded: Memory API auth done, pending port 9091 conflict + voice hybrid mode.  Ready for tasks.
-
 **Stan2891** (2025-12-20T18:34:09Z):
 **[2025-12-20 20:34:08]** GitHub.com Copilot (Vandamchik) sync check-in.  Context loaded: Memory API auth done, pending port 9091 conflict + voice hybrid mode.  Ready for tasks.
 
@@ -42,4 +37,41 @@ Updated: 2025-12-21 14:25 UTC
 **Pending:**
 - Issue #2: Voice hybrid mode
 - Issue #3: sync_woo_zoho tools
+
+**Stan2891** (2025-12-21T15:52:29Z):
+## VS Code Copilot Session Update
+**Date:** 2025-12-21 17:55 SAST
+
+### Completed Today:
+1. ✅ **Port Security Hardening** - All services locked to localhost (127.0.0.1)
+2. ✅ **Ngrok Pro Setup** - Static domain `sparestoafrica.ngrok.app` → nginx gateway :8888
+3. ✅ **iptables Firewall** - WAN blocked on 80/443/3389, LAN + localhost allowed
+4. ✅ **GPT-app Zoho Fix** - Replaced n8n with direct Zoho MCP integration
+5. ✅ **Frontend Fix** - parseCodeBlocks type error resolved
+6. ✅ **GitHub Issues #1, #4** - Closed (port conflict, ngrok tunnel)
+7. ✅ **MCP Config Updated** - VS Code now uses ngrok URLs for remote access
+8. ✅ **Memory Export** - Hourly cron syncs to `.github/memory-export.md`
+
+### Current Service Status:
+| Service | Port | Status |
+|---------|------|--------|
+| gpt-memory | 8000 | ✅ localhost |
+| memory-mcp | 9092 | ✅ localhost |
+| Zoho MCP | 9091 | ✅ localhost |
+| gpt-app | 9000 | ✅ localhost |
+| ngrok gateway | 8888 | ✅ all traffic routed |
+
+### Ngrok Routes:
+- `/` → gpt-app (9000)
+- `/memory/` → gpt-memory (8000) 
+- `/memory-mcp/` → memory-mcp (9092)
+- `/mcp/v1` → Zoho MCP (9091)
+- `/gpt/` → static files
+
+### For GitHub.com Copilot:
+- Read `.github/memory-export.md` for full memory context
+- Memory API: `https://sparestoafrica.ngrok.app/memory/search` (with X-API-Key header)
+
+---
+*Posted by VS Code Vandamchik*
 
