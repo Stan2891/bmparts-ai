@@ -1,7 +1,11 @@
 {
   "mcpServers": {
     "memory": {
-      "url": "https://sparestoafrica.ngrok.app/mcp",
+      "url": "https://sparestoafrica.ngrok.app/memory-mcp/mcp",
+      "transport": "http"
+    },
+    "zoho": {
+      "url": "https://sparestoafrica.ngrok.app/mcp/v1",
       "transport": "http"
     }
   }
