@@ -16,10 +16,13 @@ jobs:
 
       - name: Check Memory API Health
         env:
-          MEMORY_API_URL: ${{ secrets.MEMORY_API_URL }}
+          MEMORY_API_URL_RAW: ${{ secrets.MEMORY_API_URL }}
           MEMORY_API_KEY: ${{ secrets.MEMORY_API_KEY }}
         run: |
+          # Strip whitespace and newlines from URL
+          MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
           echo "Testing API at: ${MEMORY_API_URL}/health"
+          
           response=$(curl -s -o /dev/null -w "%{http_code}" \
             -H "Authorization: Bearer ${MEMORY_API_KEY}" \
             "${MEMORY_API_URL}/health")
@@ -33,9 +36,10 @@ jobs:
 
       - name: Get Memory Stats
         env:
-          MEMORY_API_URL: ${{ secrets.MEMORY_API_URL }}
+          MEMORY_API_URL_RAW: ${{ secrets.MEMORY_API_URL }}
           MEMORY_API_KEY: ${{ secrets.MEMORY_API_KEY }}
         run: |
+          MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
           curl -s \
             -H "Authorization: Bearer ${MEMORY_API_KEY}" \
             -H "Content-Type: application/json" \
@@ -44,9 +48,10 @@ jobs:
       - name: Export All Memories
         id: export
         env:
-          MEMORY_API_URL: ${{ secrets.MEMORY_API_URL }}
+          MEMORY_API_URL_RAW: ${{ secrets.MEMORY_API_URL }}
           MEMORY_API_KEY: ${{ secrets.MEMORY_API_KEY }}
         run: |
+          MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
           mkdir -p memory-backups
           
           curl -s \
