@@ -19,16 +19,49 @@ on:
 jobs:
   sync-memory:
     runs-on: ubuntu-latest
+    env:
+      MEMORY_API_KEY: ${{ secrets.MEMORY_API_KEY }}
     
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Sanitize Memory API URL
+        id: sanitize-url
+        env:
+          RAW_URL: ${{ secrets.MEMORY_API_URL }}
+        run: |
+          URL=$(python3 - <<'PY'
+import os, sys, urllib.parse
+
+raw = os.environ.get("RAW_URL", "")
+clean = raw.strip()
+
+if not clean:
+    print("❌ MEMORY_API_URL is empty after trimming", file=sys.stderr)
+    sys.exit(1)
+
+if " " in clean:
+    print("❌ MEMORY_API_URL contains spaces. Remove whitespace.", file=sys.stderr)
+    sys.exit(1)
+
+parsed = urllib.parse.urlparse(clean)
+if parsed.scheme not in {"http", "https"}:
+    print(f"❌ Invalid URL scheme: {parsed.scheme}", file=sys.stderr)
+    sys.exit(1)
+
+print(clean)
+PY
+          )
+
+          echo "Using Memory API URL: ${URL%%://*}://***"  # Mask details
+          echo "url=$URL" >> $GITHUB_OUTPUT
+
       - name: Check Memory API Health
         run: |
           response=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: Bearer ${{ secrets.MEMORY_API_KEY }}" \
-            "${{ secrets.MEMORY_API_URL }}/health")
+            -H "Authorization: Bearer $MEMORY_API_KEY" \
+            "${{ steps.sanitize-url.outputs.url }}/health")
           
           if [ "$response" = "200" ]; then
             echo "✅ Memory API is healthy"
@@ -40,9 +73,9 @@ jobs:
       - name: Get Memory Stats
         run: |
           curl -s \
-            -H "Authorization: Bearer ${{ secrets.MEMORY_API_KEY }}" \
+            -H "Authorization: Bearer $MEMORY_API_KEY" \
             -H "Content-Type: application/json" \
-            "${{ secrets.MEMORY_API_URL }}/stats" | jq .
+            "${{ steps.sanitize-url.outputs.url }}/stats" | jq .
 
       - name: Export All Memories
         id: export
@@ -51,8 +84,8 @@ jobs:
           
           # Export all memories
           curl -s \
-            -H "Authorization: Bearer ${{ secrets.MEMORY_API_KEY }}" \
-            "${{ secrets.MEMORY_API_URL }}/export" > memory-backups/latest.json
+            -H "Authorization: Bearer $MEMORY_API_KEY" \
+            "${{ steps.sanitize-url.outputs.url }}/export" > memory-backups/latest.json
           
           # Get count
           COUNT=$(jq -r '.count' memory-backups/latest.json)
