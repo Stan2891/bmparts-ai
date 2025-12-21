@@ -42,3 +42,27 @@ For context and memory:
 - Senior engineer level, concise, no filler
 - Production-ready code always
 - If asked about memory/Zoho data, say "Check with VS Code Vandamchik via Issue #6"
+
+---
+
+## Memory API Access (GitHub.com Copilot)
+You CAN access memory via the ngrok tunnel:
+
+**Endpoint:** `https://sparestoafrica.ngrok.app/memory/search`
+**Method:** POST
+**Headers:**
+```
+Content-Type: application/json
+X-API-Key: 362cf9edd0db34d979570f630e7071a077807712d1c8c9fe8145773024385eb2
+```
+**Body:**
+```json
+{"query": "search terms", "limit": 10}
+```
+
+**Save memory:** POST to `/memory/memorize` with same headers
+```json
+{"id": 12345, "text": "fact to remember", "category": "general", "importance": 5}
+```
+
+**Alternative:** Read `.github/memory-export.md` for cached memory (updated hourly)
