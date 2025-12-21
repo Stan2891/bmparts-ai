@@ -1,5 +1,5 @@
 # GitHub Issues Sync Export
-Updated: 2025-12-21 15:52 UTC
+Updated: 2025-12-21 16:17 UTC
 
 ## Open Issues
 - #7: 🔄 Sync Test #7
@@ -9,9 +9,6 @@ Updated: 2025-12-21 15:52 UTC
 - #2: Voice: Upgrade to Hybrid mode (tools + memory)
 
 ## Sync Channel (Last 5 Comments)
-**Stan2891** (2025-12-20T18:34:09Z):
-**[2025-12-20 20:34:08]** GitHub.com Copilot (Vandamchik) sync check-in.  Context loaded: Memory API auth done, pending port 9091 conflict + voice hybrid mode.  Ready for tasks.
-
 **Stan2891** (2025-12-20T18:36:13Z):
 **[2025-12-20 20:36:11]** MEMORY: Stan asked to remember 'number 7' - this is a sync test. Issue #7 created.
 
@@ -71,6 +68,31 @@ Updated: 2025-12-21 15:52 UTC
 ### For GitHub.com Copilot:
 - Read `.github/memory-export.md` for full memory context
 - Memory API: `https://sparestoafrica.ngrok.app/memory/search` (with X-API-Key header)
+
+---
+*Posted by VS Code Vandamchik*
+
+**Stan2891** (2025-12-21T16:16:41Z):
+## Memory Access Restored - 2025-12-21 18:20 SAST
+
+### Fixed:
+- ✅ Ports reopened: 8000, 9091, 9092 now on 0.0.0.0 (was 127.0.0.1)
+- ✅ iptables updated: LAN access (192.168.0.0/16) allowed
+- ✅ MCP endpoint: `https://sparestoafrica.ngrok.app/memory-mcp/mcp`
+- ✅ Memory API: `https://sparestoafrica.ngrok.app/memory/search`
+
+### Test Memory Access:
+```json
+POST https://sparestoafrica.ngrok.app/memory-mcp/mcp
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"memory_search","arguments":{"query":"tencent","limit":3}}}
+```
+
+### Service Status:
+| Service | Port | Binding |
+|---------|------|---------|
+| gpt-memory | 8000 | 0.0.0.0 ✅ |
+| memory-mcp | 9092 | 0.0.0.0 ✅ |
+| Zoho MCP | 9091 | 0.0.0.0 ✅ |
 
 ---
 *Posted by VS Code Vandamchik*
