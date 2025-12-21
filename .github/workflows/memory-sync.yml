@@ -6,6 +6,9 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sync-memory:
     runs-on: ubuntu-latest
@@ -19,7 +22,6 @@ jobs:
           MEMORY_API_URL_RAW: ${{ secrets.MEMORY_API_URL }}
           MEMORY_API_KEY: ${{ secrets.MEMORY_API_KEY }}
         run: |
-          # Strip whitespace and newlines from URL
           MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
           echo "Testing API at: ${MEMORY_API_URL}/health"
           
