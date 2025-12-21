@@ -31,27 +31,27 @@ jobs:
         env:
           RAW_URL: ${{ secrets.MEMORY_API_URL }}
         run: |
-              URL=$(python3 - <<'PY'
-              import os, sys, urllib.parse
+          URL=$(python3 - <<'PY'
+import os, sys, urllib.parse
 
-              raw = os.environ.get("RAW_URL", "")
-              clean = raw.strip()
+raw = os.environ.get("RAW_URL", "")
+clean = raw.strip()
 
-              if not clean:
-                print("❌ MEMORY_API_URL is empty after trimming", file=sys.stderr)
-                sys.exit(1)
+if not clean:
+    print("❌ MEMORY_API_URL is empty after trimming", file=sys.stderr)
+    sys.exit(1)
 
-              if " " in clean:
-                print("❌ MEMORY_API_URL contains spaces. Remove whitespace.", file=sys.stderr)
-                sys.exit(1)
+if " " in clean:
+    print("❌ MEMORY_API_URL contains spaces. Remove whitespace.", file=sys.stderr)
+    sys.exit(1)
 
-              parsed = urllib.parse.urlparse(clean)
-              if parsed.scheme not in {"http", "https"}:
-                print(f"❌ Invalid URL scheme: {parsed.scheme}", file=sys.stderr)
-                sys.exit(1)
+parsed = urllib.parse.urlparse(clean)
+if parsed.scheme not in {"http", "https"}:
+    print(f"❌ Invalid URL scheme: {parsed.scheme}", file=sys.stderr)
+    sys.exit(1)
 
-              print(clean)
-        PY
+print(clean)
+PY
           )
 
           echo "Using Memory API URL: ${URL%%://*}://***"  # Mask details
