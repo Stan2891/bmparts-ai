@@ -81,6 +81,51 @@ jobs:
             git push
           fi
 
+      - name: Generate Readable Context
+        env:
+          MEMORY_API_URL_RAW: ${{ secrets.MEMORY_API_URL }}
+        run: |
+          MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
+          TIMESTAMP=$(date '+%Y-%m-%d %H:%M')
+          
+          # Fetch and generate readable markdown
+          curl -s "${MEMORY_API_URL}/export" > /tmp/memories.json
+          COUNT=$(jq -r '.count' /tmp/memories.json)
+          
+          cat > .github/memory-context.md << 'HEADER'
+          # 🧠 BMParts Memory Context
+          HEADER
+          
+          echo "> Auto-synced: $TIMESTAMP | Total: $COUNT memories" >> .github/memory-context.md
+          echo "" >> .github/memory-context.md
+          echo "---" >> .github/memory-context.md
+          echo "" >> .github/memory-context.md
+          echo "## Business Context" >> .github/memory-context.md
+          jq -r '.memories[] | select(.category == "business" or (.text | test("BMParts|Zoho|WooCommerce"; "i"))) | "- " + .text' /tmp/memories.json | head -15 >> .github/memory-context.md
+          
+          echo "" >> .github/memory-context.md
+          echo "---" >> .github/memory-context.md
+          echo "" >> .github/memory-context.md
+          echo "## Infrastructure" >> .github/memory-context.md
+          jq -r '.memories[] | select(.category == "infrastructure") | "- " + .text' /tmp/memories.json | head -10 >> .github/memory-context.md
+          
+          echo "" >> .github/memory-context.md
+          echo "---" >> .github/memory-context.md
+          echo "" >> .github/memory-context.md
+          echo "## Rules & Preferences" >> .github/memory-context.md
+          jq -r '.memories[] | select(.text | test("prefer|must|always|want"; "i")) | "- " + .text' /tmp/memories.json | head -10 >> .github/memory-context.md
+
+      - name: Commit Context
+        run: |
+          git add .github/memory-context.md
+          
+          if git diff --staged --quiet; then
+            echo "No context changes"
+          else
+            git commit -m "📚 Update memory context for Copilot"
+            git push
+          fi
+
       - name: Cleanup Old Backups
         run: |
           cd memory-backups

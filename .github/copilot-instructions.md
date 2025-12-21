@@ -26,10 +26,21 @@ Available tools:
 
 **Health check:** `http://gpt-api.sparestoafrica.co.za/mcp/health`
 
-## Fallback Memory Access
-If MCP not available, read these files:
-1. **`.github/memory-export.md`** - Auto-synced hourly
-2. **Issue #6 comments** - Manual sync updates
+## Memory Access (IMPORTANT!)
+**READ THIS FILE FIRST:** `.github/memory-context.md`
+
+This file contains:
+- Business context (BMParts, Zoho, WooCommerce)
+- Infrastructure details (ports, servers, APIs)
+- People & contacts (Stan, Selena, etc.)
+- Rules & preferences
+- Recent work sessions
+
+**Auto-updated every 6 hours via GitHub Action.**
+
+### Additional Memory Sources:
+1. **`memory-backups/latest.json`** - Full memory export (JSON)
+2. **Issue #6 comments** - Sync channel for manual updates
 
 ## VS Code Vandamchik Has Full Access To:
 | Service | Port | ngrok path |
