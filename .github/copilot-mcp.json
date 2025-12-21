@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "memory": {
+      "url": "https://sparestoafrica.ngrok.app/mcp",
+      "transport": "http"
+    }
+  }
+}
