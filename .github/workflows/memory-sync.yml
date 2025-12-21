@@ -88,11 +88,17 @@ jobs:
           MEMORY_API_URL=$(echo "$MEMORY_API_URL_RAW" | tr -d '[:space:]')
           TIMESTAMP=$(date '+%Y-%m-%d %H:%M')
           
-          # Fetch and generate readable markdown
+          # Fetch memories
           curl -s "${MEMORY_API_URL}/export" > /tmp/memories.json
           COUNT=$(jq -r '.count' /tmp/memories.json)
           
-          cat > .github/memory-context.md << 'HEADER'
+          # Generate FULL memory export
+          jq -r '
+          "# 🧠 BMParts Full Memory Export\n> Auto-synced: " + (now | strftime("%Y-%m-%d %H:%M")) + " | Total: " + (.count | tostring) + " memories\n\n---\n\n" + ([.memories[] | "### Memory #" + (.id | tostring) + "\n**Category:** " + (.category // "general") + " | **Importance:** " + ((.importance // 5) | tostring) + "\n\n" + .text + "\n\n---\n"] | join("\n"))
+          ' /tmp/memories.json > .github/memory-full.md
+          
+          # Generate summary context
+          cat > .github/memory-context.md << HEADER
           # 🧠 BMParts Memory Context
           HEADER
           
@@ -117,7 +123,7 @@ jobs:
 
       - name: Commit Context
         run: |
-          git add .github/memory-context.md
+          git add .github/memory-context.md .github/memory-full.md
           
           if git diff --staged --quiet; then
             echo "No context changes"

@@ -27,20 +27,25 @@ Available tools:
 **Health check:** `http://gpt-api.sparestoafrica.co.za/mcp/health`
 
 ## Memory Access (IMPORTANT!)
-**READ THIS FILE FIRST:** `.github/memory-context.md`
+**READ THIS FILE FIRST:** `.github/memory-full.md`
 
-This file contains:
+This file contains ALL 144+ memories including:
 - Business context (BMParts, Zoho, WooCommerce)
 - Infrastructure details (ports, servers, APIs)
-- People & contacts (Stan, Selena, etc.)
+- People & contacts (Stan, Selena, family)
 - Rules & preferences
+- Security investigations
 - Recent work sessions
 
 **Auto-updated every 6 hours via GitHub Action.**
 
-### Additional Memory Sources:
-1. **`memory-backups/latest.json`** - Full memory export (JSON)
-2. **Issue #6 comments** - Sync channel for manual updates
+### Quick Reference:
+| File | Content |
+|------|---------|
+| `.github/memory-full.md` | **Full memory export** (read this!) |
+| `.github/memory-context.md` | Categorized summary |
+| `memory-backups/latest.json` | Raw JSON export |
+| Issue #6 | Sync channel for updates |
 
 ## VS Code Vandamchik Has Full Access To:
 | Service | Port | ngrok path |
