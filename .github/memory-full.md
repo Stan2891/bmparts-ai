@@ -1,5 +1,5 @@
 # 🧠 BMParts Full Memory Export
-> Auto-synced: 2025-12-21 18:46 | Total: 144 memories
+> Auto-synced: 2025-12-23 18:40 | Total: 145 memories
 
 ---
 
@@ -839,6 +839,13 @@ Memory MCP Server deployed on port 9092 (Dec 20, 2025). Enables GitHub Copilot t
 **Category:** infrastructure | **Importance:** 9
 
 GitHub Copilot on github.com now connected to shared memory via Memory MCP Server (port 9092). Same memory as Vandamchik in VS Code.
+
+---
+
+### Memory #1766362967075
+**Category:** infrastructure | **Importance:** 8
+
+MCP Configuration Updated 2025-12-22: Zoho MCP at https://sparestoafrica.ngrok.app/mcp/v1 (paid stable domain), Memory MCP at http://localhost:9092/mcp. ngrok runs as systemd service ngrok-mcp on port 9091.
 
 ---
 
