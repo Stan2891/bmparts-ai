@@ -1,6 +1,6 @@
 # Memory Export for GitHub.com Copilot
-**Auto-generated:** 2025-12-25T03:00:01+02:00
-**Source:** gpt-memory:8000 (160 memories)
+**Auto-generated:** 2025-12-25T04:00:01+02:00
+**Source:** gpt-memory:8000 (169 memories)
 
 ---
 
@@ -219,6 +219,77 @@ No generic advice.
 - [general] Pending projects IN PROGRESS: Migration from ngrok to stable public tunnel (Cloudflare/Railway/Render) - Expansion of best-seller automation into pricing adjustments - Promotion auto-designer runtime integration
 - [general] BMParts uses Zoho Inventory organization ID 856737871
 - [general] Selena works for China Top Trading Limited and acts as a trusted buying and shipping agent.
+- [rules] Zoho Commerce Build Checklist - BMParts Migration
+
+PHASE 1: FOUNDATION
+[ ] Set up Zoho Commerce store
+[ ] Connect to Zoho Inventory (Org 856737871)
+[ ] Connect to Zoho Books
+[ ] Configure store settings (currency ZAR, timezone Africa/Johannesburg)
+[ ] Set up domain (bmparts.co.za or subdomain)
+[ ] SSL certificate verification
+
+PHASE 2: CATALOG
+[ ] Create category structure (Series + Part Types)
+[ ] Import products from Inventory
+[ ] Map custom fields (cf_condition, cf_sale_price, cf_fitment)
+[ ] Upload product images
+[ ] Set up product variants if needed
+[ ] Configure inventory sync
+
+PHASE 3: DESIGN
+[ ] Choose/customize theme
+[ ] Brand colors: #0066B1 (BMW Blue), #FFFFFF, #000000
+[ ] Logo upload
+[ ] Homepage layout
+[ ] Category page template
+[ ] Product page template
+[ ] Cart and checkout styling
+[ ] Mobile responsiveness check
+
+PHASE 4: PAYMENTS & SHIPPING
+[ ] Integrate PayFast
+[ ] Configure EFT option
+[ ] Set up shipping zones (ZA provinces)
+[ ] Configure shipping rates
+[ ] Free shipping threshold (R1500+)
+[ ] Tax settings (15% VAT inclusive)
+
+PHASE 5: AUTOMATION
+[ ] Stock sync workflow (Inventory -> Commerce)
+[ ] Price sync with sale prices
+[ ] Order -> Sales Order flow
+[ ] Low stock alerts
+[ ] Abandoned cart emails
+[ ] Order confirmation emails
+
+PHASE 6: CONTENT & SEO
+[ ] About page
+[ ] Contact page with map
+[ ] Shipping policy
+[ ] Returns policy
+[ ] Terms and conditions
+[ ] Privacy policy
+[ ] Meta titles/descriptions
+[ ] Schema markup
+
+PHASE 7: TESTING
+[ ] Test product browse
+[ ] Test search functionality
+[ ] Test add to cart
+[ ] Test checkout flow (sandbox)
+[ ] Test payment processing
+[ ] Test order creation in Inventory
+[ ] Test mobile experience
+[ ] Test email notifications
+
+PHASE 8: LAUNCH
+[ ] Final content review
+[ ] DNS cutover
+[ ] Redirect old URLs
+[ ] Monitor for errors
+[ ] Announce to customers
+[ ] Post-launch optimization
 - [general] Global memory includes workflow patterns, API behaviour memories, server state, pricing strategy, and warehouse behaviour.
 - [general] Supplier APIs provide availability and pricing.
 - [general] Stan wants persistent workload automation and proactive monitoring features active.
@@ -419,4 +490,3 @@ Trigger: Order delivered + 7 days
 Action: Send review request email with product links
 Implementation: Zoho Flow + Campaigns
 - [general] Selena consolidates goods from several suppliers.
-- [rules] Spares to Africa Portal - Promotions and Vouchers Logic: PROMOTIONS: Time-based with start/end dates, applies to selected products, auto-expires, visible during active period. VOUCHERS: First purchase only, single use per customer, 20-25% discount, for portal launch campaign, must track redemption status per customer to prevent reuse.
