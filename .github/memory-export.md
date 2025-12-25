@@ -1,6 +1,6 @@
 # Memory Export for GitHub.com Copilot
-**Auto-generated:** 2025-12-25T02:00:01+02:00
-**Source:** gpt-memory:8000 (147 memories)
+**Auto-generated:** 2025-12-25T03:00:01+02:00
+**Source:** gpt-memory:8000 (160 memories)
 
 ---
 
@@ -226,6 +226,52 @@ No generic advice.
 - [general] Spares to Africa (Pty) Ltd - Registration: 2018/023532/07 - Director: Stanislav Andreev - Zoho Org ID: 857295887 - Plan: Finance Plus - Apps: Books, Inventory, CRM, Flow - Role: Importer, supplier, upstream stock holder feeding BMParts
 - [general] BMParts’ Zoho Inventory Organization ID is 856737871
 - [general] Stan uses WooCommerce, Zoho Flow, UDM Pro, Ubuntu servers, and supplier APIs.
+- [business] BMParts Zoho Commerce Website Build - Master Plan (2025-12-25)
+
+BUSINESS CONTEXT:
+- Company: BMParts (South Africa)
+- Industry: BMW automotive parts - retail, wholesale, online
+- Current platform: WooCommerce at www.bmparts.co.za
+- Target platform: Zoho Commerce (migrate from WooCommerce)
+- Zoho Org ID: 856737871
+- Zoho Apps: Inventory, Books, Flow, Commerce
+
+SITE STRUCTURE:
+- Homepage: Hero banner, featured products, categories, promotions
+- Category pages: BMW Series (E30, E36, E46, E90, F30, G20, etc.), Part Types (Engine, Suspension, Electrical, Body, Interior)
+- Product listing: Grid/list view, filters (condition, price, availability), sorting
+- Product detail: Images, specs, fitment, related parts, add to cart
+- Cart/Checkout: Zoho Commerce native
+- Account: Order history, wishlist, saved vehicles
+- Static pages: About, Contact, Shipping, Returns, T&Cs
+
+PRODUCT TAXONOMY:
+Level 1 - BMW Series: E-Series (E30/E36/E46/E90), F-Series (F30/F80/F10), G-Series (G20/G80/G30)
+Level 2 - Part Category: Engine, Drivetrain, Suspension, Brakes, Electrical, Body, Interior, Cooling, Exhaust
+Level 3 - Part Type: e.g. Engine > Oil Filters, Spark Plugs, Timing Chains
+Custom Fields: cf_condition (NEW/USED), cf_sale_price, cf_fitment, cf_oem_number
+
+DESIGN REQUIREMENTS:
+- Mobile-first responsive
+- BMW brand colors: Blue (#0066B1), White, Black, Silver accents
+- Clean automotive aesthetic
+- Fast loading (image optimization)
+- Trust signals: Secure checkout, warranty info, contact details
+
+INTEGRATIONS:
+- Zoho Inventory: Real-time stock sync
+- Zoho Books: Order invoicing
+- Zoho Flow: Automation triggers
+- Payment: PayFast (SA gateway), EFT
+- Shipping: CourierIT, Dawn Wing, Pudo lockers
+
+AUTOMATION WORKFLOWS:
+1. Stock sync: Zoho Inventory -> Commerce (real-time)
+2. Price updates: Sale price automation from Inventory cf_sale_price
+3. Order flow: Commerce -> Inventory SO -> Books Invoice
+4. Low stock alerts: Flow triggers when stock < threshold
+5. Abandoned cart: Email automation
+6. Promotion scheduling: Time-based sale price activation
 - [general] BMParts and Spares to Africa share systems and data for tracking discount logic, promotion effectiveness, and cross-channel performance
 - [general] BMParts uses AI systems for operational decisions.
 - [general] Pending projects PLANNED: Deeper Zoho CRM signal usage - Automated reorder forecasting - Cross-org margin anomaly detection between Spares to Africa and BMParts
@@ -235,11 +281,142 @@ No generic advice.
 - [general] Business pricing rules - Minimum margin floor: 8% - Big item discount cap: 10% - Slow mover discount: 15% - Dead stock discount range: 20-40% - Safety exclusions enabled - Left/right pairing logic enabled - Special Sale Warehouse for clearance items
 - [general] Stan wants tasks and long-term projects tracked persistently via memory.
 - [general] Stan wants to maintain automation reliability across Zoho, WooCommerce, API integrations, and stock rules.
+- [infrastructure] South Africa E-commerce Integrations - BMParts
+
+PAYMENT GATEWAYS:
+PayFast (Primary):
+- URL: https://www.payfast.co.za
+- Methods: Credit/Debit Card, Instant EFT, Mobicred, SnapScan, Zapper
+- Integration: Redirect or onsite
+- Fees: ~3.5% + R2 per transaction
+- Zoho Commerce: Native integration available
+
+Yoco:
+- Card payments, in-person and online
+- Lower fees for small transactions
+
+EFT (Manual):
+- Bank details on checkout
+- Proof of payment upload
+- Manual order confirmation
+
+SHIPPING PROVIDERS:
+CourierGuy:
+- API: REST
+- Services: Economy, Express, Overnight
+- Tracking: Real-time
+- Integration: Webhook for status updates
+
+Dawn Wing:
+- National coverage
+- Economy option
+
+The Courier Guy (TCG):
+- Popular for e-commerce
+- Competitive rates
+
+Pudo (Locker Network):
+- Self-service lockers
+- Convenient for customers
+- Lower cost
+
+Aramex:
+- International shipping
+- Good for exports
+
+SHIPPING ZONES (ZA):
+- Gauteng (GP): 1-2 days
+- Western Cape (WC): 2-3 days
+- KwaZulu-Natal (KZN): 2-3 days
+- Eastern Cape (EC): 3-4 days
+- Other provinces: 3-5 days
+- Remote areas: 5-7 days
+
+SHIPPING RATES STRUCTURE:
+- Weight-based: R/kg with minimum
+- Flat rate by zone
+- Free shipping threshold (e.g., orders > R1500)
+- Heavy/oversized surcharge
+
+TAX:
+- VAT: 15% (included in prices)
+- Tax ID: Required for business customers
+- Export: Zero-rated with documentation
 - [general] Stock management follows strict SKU identity rules.
 - [general] The user has information technology knowledge and is comfortable with servers and filesystems
 - [general] The user uses Zoho Inventory with a specific organization ID
+- [integrations] Zoho Commerce Automation Workflows - Detailed
+
+WORKFLOW 1: INVENTORY SYNC (Real-time)
+Trigger: Zoho Inventory item updated
+Action: Update Zoho Commerce product stock
+Logic: 
+- stock_on_hand from Inventory -> available_quantity in Commerce
+- If stock_on_hand = 0, set status = out_of_stock
+- If stock_on_hand < 5, add LOW_STOCK badge
+Implementation: Zoho Flow or native Inventory-Commerce sync
+
+WORKFLOW 2: PRICE SYNC WITH SALE PRICE
+Trigger: Inventory item cf_sale_price changed
+Action: Update Commerce product pricing
+Logic:
+- If cf_sale_price > 0 and cf_sale_price < rate:
+  - Set compare_at_price = rate
+  - Set price = cf_sale_price
+  - Add SALE badge
+- If cf_sale_price empty or 0:
+  - Set price = rate
+  - Remove compare_at_price
+  - Remove SALE badge
+Implementation: Zoho Flow webhook on Inventory update
+
+WORKFLOW 3: ORDER PROCESSING
+Trigger: Commerce order.paid
+Actions:
+1. Create Sales Order in Zoho Inventory
+2. Create Invoice in Zoho Books
+3. Send confirmation email
+4. Update stock (auto via Inventory)
+5. Notify warehouse for picking
+Implementation: Zoho Flow multi-step
+
+WORKFLOW 4: LOW STOCK ALERTS
+Trigger: Inventory stock_on_hand < reorder_level
+Action: 
+- Email notification to purchasing
+- Slack/Teams notification
+- Add to reorder report
+Implementation: Zoho Flow schedule (daily) or webhook
+
+WORKFLOW 5: ABANDONED CART RECOVERY
+Trigger: Cart created, no order in 1 hour
+Actions:
+- Email 1: 1 hour - "Did you forget something?"
+- Email 2: 24 hours - "Your cart is waiting"
+- Email 3: 72 hours - "10% off to complete your order"
+Implementation: Zoho Commerce native or Flow + Campaigns
+
+WORKFLOW 6: PROMOTION SCHEDULER
+Trigger: Scheduled datetime
+Actions:
+- Bulk update cf_sale_price on selected items
+- Update Commerce product badges
+- Enable/disable banner
+Implementation: Zoho Flow scheduled + Deluge function
+
+WORKFLOW 7: NEW PRODUCT PUBLISH
+Trigger: Inventory item created with status=active
+Action:
+- Create Commerce product
+- Set category based on Inventory group
+- Upload images
+- Set SEO metadata
+- Publish to storefront
+Implementation: Zoho Flow or Schedule
+
+WORKFLOW 8: REVIEW/RATING REQUEST
+Trigger: Order delivered + 7 days
+Action: Send review request email with product links
+Implementation: Zoho Flow + Campaigns
 - [general] Selena consolidates goods from several suppliers.
 - [rules] Spares to Africa Portal - Promotions and Vouchers Logic: PROMOTIONS: Time-based with start/end dates, applies to selected products, auto-expires, visible during active period. VOUCHERS: First purchase only, single use per customer, 20-25% discount, for portal launch campaign, must track redemption status per customer to prevent reuse.
-- [integrations] Spares to Africa Portal - Pricing Features: Two price lists (Standard Wholesale, VIP Wholesale) assigned per customer. Weekly promotions for featured products. Discount voucher system with coupon codes. Launch promotion: 20-25% off first purchase voucher for new portal users. Need to implement voucher tracking and redemption logic.
-- [general] Imported BMParts Ultra Memory Pack v5 from user JSON; use as core persistent context for all future reasoning and operations.
-- [general] ChatGPT must remember key numbers, IDs, warehouse names, and configuration details accurately.
