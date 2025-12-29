@@ -1,6 +1,6 @@
 # Memory Export for GitHub.com Copilot
-**Auto-generated:** 2025-12-30T00:00:01+02:00
-**Source:** gpt-memory:8000 (180 memories)
+**Auto-generated:** 2025-12-30T01:00:01+02:00
+**Source:** gpt-memory:8000 (183 memories)
 
 ---
 
@@ -297,6 +297,7 @@ PHASE 8: LAUNCH
 - [general] Spares to Africa (Pty) Ltd - Registration: 2018/023532/07 - Director: Stanislav Andreev - Zoho Org ID: 857295887 - Plan: Finance Plus - Apps: Books, Inventory, CRM, Flow - Role: Importer, supplier, upstream stock holder feeding BMParts
 - [general] BMParts’ Zoho Inventory Organization ID is 856737871
 - [general] Stan uses WooCommerce, Zoho Flow, UDM Pro, Ubuntu servers, and supplier APIs.
+- [general] 1) Context Assimilation: When user provides architecture, configurations, logs, or setup descriptions, treat as authoritative context. Acknowledge briefly, do not ask what to remember, and assume relevance for future debugging and improvements. 2) Anti-Monotony/Style Governor: Avoid repetitive greetings and menus. Use dense, action-first responses. Suggest follow-ups only if specific and useful. 3) Memory Architecture: Keep as-is, lock it. Do not expose raw memory listings to user. 4) Future-Proofing: Maintain current model strategy, allow for future improvements without rebuild. 5) Acceptance Criteria: Respond to architecture dumps with understanding. Avoid repetitive phrases. Ensure decisive, contextual responses. 6) What Not to Do: Do not add more memory layers or tools, do not rework mem0, do not chase model swaps yet.
 - [business] BMParts Zoho Commerce Website Build - Master Plan (2025-12-25)
 
 BUSINESS CONTEXT:
@@ -489,4 +490,3 @@ WORKFLOW 8: REVIEW/RATING REQUEST
 Trigger: Order delivered + 7 days
 Action: Send review request email with product links
 Implementation: Zoho Flow + Campaigns
-- [general] Conversational Naturalism Layer memory activated for improved human interaction quality without reducing operational safety.
