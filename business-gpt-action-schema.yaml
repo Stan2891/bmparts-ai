@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Business GPT API
+  description: API to communicate with BMParts Business GPT backend
+  version: 1.0.0
+servers:
+  - url: https://gpt.sparestoafrica.ngrok.app
+    description: Production server via ngrok
+
+paths:
+  /chat:
+    post:
+      operationId: askBusinessGPT
+      summary: Send a message to Business GPT
+      description: Send a message to the Business GPT backend and receive a response. Use this to ask questions about inventory, sales, products, orders, or any business-related queries.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - message
+              properties:
+                message:
+                  type: string
+                  description: The message or question to send to Business GPT
+                  example: "What are today's sales?"
+      responses:
+        '200':
+          description: Successful response from Business GPT
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reply:
+                    type: string
+                    description: The response from Business GPT
+        '401':
+          description: Invalid API key
+        '422':
+          description: Validation error
+
+  /health:
+    get:
+      operationId: healthCheck
+      summary: Check if Business GPT is online
+      description: Returns health status of the Business GPT backend
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
