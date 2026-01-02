@@ -9,8 +9,8 @@
 (function() {
   'use strict';
 
-  // Icon base URL (GitHub raw content)
-  const ICON_BASE_URL = 'https://raw.githubusercontent.com/Stan2891/bmparts-ai/main/assets/category-icons';
+  // Icon base URL (jsDelivr CDN for better performance)
+  const ICON_BASE_URL = 'https://cdn.jsdelivr.net/gh/Stan2891/bmparts-ai@main/assets/category-icons';
 
   // Category name to icon filename mapping
   const CATEGORY_ICON_MAP = {
