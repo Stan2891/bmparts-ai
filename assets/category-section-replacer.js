@@ -53,18 +53,14 @@
   ];
 
   function createSeriesMenu(seriesItem) {
+    // All chassis codes link directly to the series page (no ?model= param)
     const modelLinks = seriesItem.models.map(model => 
-      `<a href="${seriesItem.url}?model=${model}" class="saa-model-link">${model}</a>`
+      `<a href="${seriesItem.url}" class="saa-model-link">${model}</a>`
     ).join('');
     
+    // No header - just chassis codes grouped in a box
     return `
       <div class="saa-series-group">
-        <a href="${seriesItem.url}" class="saa-series-header">
-          <span class="saa-series-name">${seriesItem.series}</span>
-          <svg class="saa-arrow" viewBox="0 0 24 24" width="16" height="16">
-            <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-          </svg>
-        </a>
         <div class="saa-models-submenu">
           ${modelLinks}
         </div>
@@ -118,92 +114,52 @@
       }
       
       .saa-models-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
       }
       
       .saa-series-group {
-        background: #fff;
-        border-radius: 12px;
-        border: 1px solid #e0e0e0;
-        overflow: hidden;
-        transition: box-shadow 0.2s ease;
-      }
-      
-      .saa-series-group:hover {
-        box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-      }
-      
-      .saa-series-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 16px 20px;
-        background: #0066b3;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
-        transition: background 0.2s ease;
-      }
-      
-      .saa-series-header:hover {
-        background: #004d8a;
-      }
-      
-      .saa-series-name {
-        flex: 1;
-      }
-      
-      .saa-arrow {
-        flex-shrink: 0;
-        opacity: 0.8;
+        display: contents;
       }
       
       .saa-models-submenu {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 12px;
-        gap: 8px;
+        display: contents;
       }
       
       .saa-model-link {
         display: inline-block;
-        padding: 8px 14px;
-        background: #f5f5f5;
-        border-radius: 6px;
-        color: #333;
+        padding: 12px 20px;
+        background: #fff;
+        border-radius: 8px;
+        color: #1a1a1a;
         text-decoration: none;
-        font-size: 13px;
-        font-weight: 500;
+        font-size: 15px;
+        font-weight: 600;
         transition: all 0.2s ease;
-        border: 1px solid transparent;
+        border: 2px solid #e0e0e0;
+        min-width: 70px;
+        text-align: center;
       }
       
       .saa-model-link:hover {
         background: #0066b3;
         color: #fff;
         border-color: #0066b3;
-      }
-      
-      /* Tablet */
-      @media (max-width: 1024px) {
-        .saa-models-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,102,179,0.3);
       }
       
       /* Mobile */
       @media (max-width: 600px) {
-        .saa-models-grid {
-          grid-template-columns: 1fr;
-        }
         .saa-models-section {
           padding: 40px 16px;
         }
-        .saa-series-header {
-          padding: 14px 16px;
+        .saa-model-link {
+          padding: 10px 16px;
+          font-size: 14px;
+          min-width: 60px;
         }
       }
       
