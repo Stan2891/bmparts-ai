@@ -36,14 +36,14 @@ def save_state(state):
 def get_comments():
     """Fetch all comments for the issue."""
     url = f"https://api.github.com/repos/{REPO}/issues/{ISSUE_NUMBER}/comments"
-    response = requests.get(url, headers=HEADERS)
+    response = requests.get(url, headers=HEADERS, timeout=15)
     response.raise_for_status()
     return response.json()
 
 def post_comment(body):
     """Post a comment to the issue."""
     url = f"https://api.github.com/repos/{REPO}/issues/{ISSUE_NUMBER}/comments"
-    response = requests.post(url, headers=HEADERS, json={"body": body})
+    response = requests.post(url, headers=HEADERS, json={"body": body}, timeout=15)
     response.raise_for_status()
     return response.json()
 
@@ -52,13 +52,18 @@ def main():
     last_id = state.get("last_comment_id", 0)
     
     comments = get_comments()
-    new_comments = [c for c in comments if c["id"] > last_id]
+    
+    # Filter: new comments only, exclude bot comments entirely (anti-loop)
+    new_comments = [
+        c for c in comments
+        if c["id"] > last_id and c["user"]["login"] != "github-actions[bot]"
+    ]
     
     if not new_comments:
-        print(f"No new comments since ID {last_id}")
+        print(f"No new human comments since ID {last_id}")
         return
     
-    print(f"Found {len(new_comments)} new comment(s)")
+    print(f"Found {len(new_comments)} new human comment(s)")
     
     # Build notification message
     lines = ["🔔 **New Comment(s) Detected on Issue #7**\n"]
@@ -69,16 +74,12 @@ def main():
         link = c["html_url"]
         lines.append(f"**@{author}** at `{created}`:\n> {body}\n[View →]({link})\n")
     
-    # Don't post if the last comment was from github-actions (avoid loop)
-    if new_comments[-1]["user"]["login"] == "github-actions[bot]":
-        print("Last comment was from bot, skipping notification")
-    else:
-        notification = "\n".join(lines)
-        notification += "\n---\n_Automated monitor — GitHub Actions_"
-        post_comment(notification)
-        print("Notification posted")
+    notification = "\n".join(lines)
+    notification += "\n---\n_Automated monitor — GitHub Actions_"
+    post_comment(notification)
+    print("Notification posted")
     
-    # Update state to latest comment ID
+    # Update state to latest comment ID (including bot comments for baseline)
     max_id = max(c["id"] for c in comments)
     state["last_comment_id"] = max_id
     save_state(state)
