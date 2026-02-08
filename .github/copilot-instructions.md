@@ -45,39 +45,104 @@ Default timezone: **Africa/Johannesburg (UTC+2)**.
 
 ---
 
-# 🧠 Memory Discipline (THIS IS CRITICAL)
+# 🧠 Local MCP Memory Usage Contract (MANDATORY)
 
-Copilot has no native long-term memory. Use MCP memory tools as the "truth store".
+A local MCP memory server is available and must be used deliberately.
+MCP memory is the ONLY trusted long-term memory source for Copilot.
 
-## Memory Workflow (Read-first, then write)
-1) **memory_search** before answering if the task touches:
-   - IDs, endpoints, ports, org configs, pricing rules, warehouse logic, known incidents, ongoing projects
-2) Use retrieved memory as ground truth; if missing/uncertain, ask Stan or fall back to `/context/*.md`.
-3) After finishing a task, **memory_save ONLY if** the info is:
-   - Stable (won't change tomorrow), useful later, and validated (user-confirmed or log-confirmed)
+## Availability Detection
+- MCP memory tools may or may not be available depending on environment.
+- Before claiming memory was used:
+  - Verify tool availability via MCP introspection or a memory_search call.
+- If MCP is unavailable:
+  - State briefly: "MCP memory not available in this environment."
+  - Fall back to `/context/*.md` and repo search.
+  - NEVER hallucinate memory reads or writes.
 
-## What to save (allowed)
-- Stable identifiers: org IDs, location IDs, warehouse names, service ports, base URLs
-- Decisions + outcomes: "Switched tunnel to Cloudflare; ngrok deprecated; works on date X"
-- Known failure modes + fixes (with version/date)
-- Project state with status + next action
+---
 
-## What NOT to save
-- Secrets, credentials, private keys, banking details
-- Highly personal family info unless explicitly needed for operations
-- Speculation, guesses, unverified conclusions
-- Repeated duplicates (dedupe + update instead)
+## Memory Read Rules (READ-FIRST)
 
-## Saving format (enforce)
-When saving memory, store:
-- `key` (stable slug)
-- `value` (concise)
-- `tags` (system + domain)
-- `source` (user / logs / repo file)
-- `updated_at` (YYYY-MM-DD)
-- `confidence` (high/med/low)
+When a task involves ANY of the following:
+- IDs (org IDs, location IDs, warehouse IDs)
+- Endpoints, base URLs, ports
+- Pricing rules, discount caps, margin floors
+- Automation decisions, infra state, known failures
+- Ongoing or past projects
 
-If the tool schema differs, first call the tools list endpoint (e.g., memory tools introspection) and adapt.
+You MUST:
+1) Call `memory_search` with **specific keywords** (not generic).
+2) Treat returned memories as **authoritative**.
+3) If memory is missing or conflicting:
+   - Check `/context/*.md`
+   - Ask Stan only if still ambiguous.
+
+You may proceed without memory ONLY if:
+- The task is clearly exploratory OR
+- The user explicitly says to ignore memory.
+
+---
+
+## Memory Write Rules (WRITE-SPARINGLY)
+
+You MUST write to MCP memory ONLY when information is:
+- Stable (won't change tomorrow)
+- Validated (confirmed by Stan, logs, or code)
+- Likely useful in future sessions
+
+Examples that SHOULD be saved:
+- "BMParts Zoho Inventory Org ID = 856737871"
+- "gpt-app memory system uses hybrid scoped + global recall (YYYY-MM-DD)"
+- "Cloudflare Tunnel replaced ngrok for MCP access"
+
+Examples that MUST NOT be saved:
+- Tokens, secrets, passwords
+- Temporary debugging output
+- Speculation or guesses
+- Repeated duplicates
+
+---
+
+## Required Memory Save Format
+
+When saving memory, ALWAYS include:
+- key: stable_slug_name
+- value: concise factual statement
+- tags: [system, domain, project]
+- source: user | logs | repo_file
+- updated_at: YYYY-MM-DD
+- confidence: high | medium | low
+
+If MCP schema differs:
+- First call tools introspection
+- Adapt to schema
+- Do NOT guess field names
+
+---
+
+## Memory Priority Model
+
+When multiple memory sources exist:
+1) Session-scoped memory (if supported)
+2) User-scoped memory (if supported)
+3) Global MCP memory (business facts)
+4) Repo `/context/*.md`
+5) Repo code
+6) Ask Stan
+
+Lower layers MUST NOT override higher layers.
+
+---
+
+## Prohibited Behavior (HARD FAIL)
+
+- Claiming memory was read when MCP was unavailable
+- Writing memory without validation
+- Ignoring MCP when task clearly depends on historical facts
+- Rewriting or mutating existing memory records
+- Auto-saving everything discussed
+
+Violation of these rules is considered a correctness failure.
 
 ---
 
