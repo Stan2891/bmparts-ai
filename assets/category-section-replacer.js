@@ -163,11 +163,28 @@
         }
       }
       
-      /* Hide demo section */
-      [class*="explore"], 
-      section:has(h2:contains("Explore")),
-      .category-section:not(.saa-models-section) {
+      /* Hide demo section (desktop + mobile) */
+      .zcs-mobile-category,
+      .zp-hidden-md.zp-hidden-sm.zp-hidden-xs:has(.zcs_category_icon) {
         display: none !important;
+      }
+
+      /* Fallback: enlarge category icons if section still visible */
+      .zcs_category_icon img,
+      .zs-category-hover-effect img {
+        width: 80px !important;
+        height: 80px !important;
+        min-width: 80px !important;
+        min-height: 80px !important;
+      }
+      @media (max-width: 768px) {
+        .zcs_category_icon img,
+        .zs-category-hover-effect img {
+          width: 70px !important;
+          height: 70px !important;
+          min-width: 70px !important;
+          min-height: 70px !important;
+        }
       }
     `;
     
@@ -182,13 +199,22 @@
     const headings = document.querySelectorAll('h2, h3');
     let demoSection = null;
     
-    headings.forEach(h => {
-      if (h.textContent.toLowerCase().includes('explore our range') || 
-          h.textContent.toLowerCase().includes('explore')) {
-        // Find parent section
-        demoSection = h.closest('section') || h.parentElement?.parentElement;
-      }
-    });
+    // First try mobile-specific category container
+    demoSection = document.querySelector('.zcs-mobile-category');
+    
+    // Then try desktop section
+    if (!demoSection) {
+      headings.forEach(h => {
+        if (h.textContent.toLowerCase().includes('explore our range') || 
+            h.textContent.toLowerCase().includes('explore')) {
+          demoSection = h.closest('.zpsection') || h.closest('section') || h.parentElement?.parentElement;
+        }
+      });
+    }
+    
+    // Also hide any additional desktop-only category sections
+    const desktopCat = document.querySelector('.zp-hidden-md.zp-hidden-sm.zp-hidden-xs:has(.zcs_category_icon)');
+    if (desktopCat) desktopCat.style.display = 'none';
     
     if (demoSection && !document.querySelector('.saa-models-section')) {
       // Hide demo section
